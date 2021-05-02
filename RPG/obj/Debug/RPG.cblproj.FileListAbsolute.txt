@@ -1,0 +1,8 @@
+C:\Users\Hubsc\source\repos\RPG\RPG\bin\Debug\RPG.exe
+C:\Users\Hubsc\source\repos\RPG\RPG\bin\Debug\RPG.pdb
+C:\Users\Hubsc\source\repos\RPG\RPG\bin\Debug\RPG.RPG_Program1.idy
+C:\Users\Hubsc\source\repos\RPG\RPG\obj\Debug\RPG.cblprojAssemblyReference.cache
+C:\Users\Hubsc\source\repos\RPG\RPG\obj\Debug\RPG.cblproj.CoreCompileInputs.cache
+C:\Users\Hubsc\source\repos\RPG\RPG\obj\Debug\RPG.exe
+C:\Users\Hubsc\source\repos\RPG\RPG\obj\Debug\RPG.pdb
+C:\Users\Hubsc\source\repos\RPG\RPG\obj\Debug\RPG.RPG_Program1.idy
