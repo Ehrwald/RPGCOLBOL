@@ -95,12 +95,17 @@
            perform Menu-Fin.
        Menu-init.
       *    accept DateSysteme from date.
+
            Move 9 to Saisi.
            Move 0 to Temps.
+
+      ****** On initialise un Ennemi *******
+
            Move "Demon" to Nom of Ennemi.
            Move 150 to Pv of Ennemi.
            Move 1 to Niveau of Ennemi.
            Move 50 to XpReward of Ennemi.
+      *TODO : Générer des ennemis différents et automatiquement. **********
 
       *    **************************
       * Connexion à la base de données *
@@ -119,6 +124,12 @@
              SET AUTOCOMMIT ON
            end-exec.
 
+      *TODO : Prévoir la déconnexion de la base de donnée à la fin. **************
+
+
+      *    ****************************
+      ***** Le menu du jeu principal *****
+      *    ****************************
 
        Menu-Trt.
            display menu-jeu.
@@ -134,6 +145,10 @@
            end-evaluate.
        Menu-Fin.
            stop run.
+
+      *    *******************************************************
+      *    Créer un nouveaux personnage et le sauver en BDD ******
+      *    *******************************************************
        CreerSonPersonnage.
            perform CreerSonPersonnage-init.
            perform CreerSonPersonnage-trt.
@@ -171,6 +186,10 @@
            continue.
        CreerSonPersonnage-fin.
 
+      *    *************************************
+      *    Récupérer un personnage sauvé en BDD 
+      *    *************************************
+
        RecupererSonPersonnage.
            perform RecupererSonPersonnage-init.
 
@@ -186,11 +205,15 @@
            DISPLAY "Indiquer le nom de votre personnage".
            ACCEPT SaisiNom.
 
+      *    * On récupère le personnage en fonction du nom que l'utilisateur indique.
+      *    TODO : afficher les personnages disponibles en BDD
            exec sql
                select * into :Personnage
                from personnage
                where Nom =:SaisiNom
            end-exec.
+
+
            if (sqlcode <> 0 and sqlcode <> 1) then
 
                DISPLAY menu-clean
@@ -205,16 +228,22 @@
 
            end-if.
 
-      *    console log
-      *    display Nom of Personnage.
-      *    continue.
        RecupererSonPersonnage-fin.
+
+      *    ***************************
+      *    Lancer le jeu / Combat ****
+      *    ***************************
+
        LancerLeJeu.
            perform LancerLeJeu-init.
            perform LancerLeJeu-trt Until Pv of Personnage is <= 0 and Pv of Ennemi is <= 0 or Action is = 3.
            perform LancerLeJeu-fin.
        LancerLeJeu-init.
            Move 9 to Action.
+
+      *    *****************************************************************************************
+      *    Tant que l'un des adversaires est en vie et que le joueur n'a pas fui le combat continu
+      *    *****************************************************************************************
 
        LancerLeJeu-trt.
 
@@ -229,6 +258,10 @@
                when 3
                    perform fuire
            end-evaluate.
+
+      *    ********************************************************
+      *    *Les différentes possibilités à la sortie de la boucle
+      *    ********************************************************
 
        LancerLeJeu-fin.
 
@@ -252,9 +285,21 @@
            perform attaquer-trt.
            perform attaquer-fin.
 
+      *    ****************************************************************************
+      *    * table sql étant vie on initialise une attaques
+      *    * TODO : récupérer en fichier en dure pour alimenter la base de données 
+      *    * **************************************************************************
+
        attaquer-init.
            Move "coup d epee" to Nom of Attaque.
            Move 50 to Degat of Attaque.
+
+
+      *    ******************************************************************************************************************
+      *    * Applique les dégâts du joueur sur l'ennemi puis de l'ennemi sur le joueur
+      *    * TODO : Montrer les dégâts infligés par chacun, prévoir de l'initiative pour déterminer qui attaque le premier
+      *    ******************************************************************************************************************
+
        attaquer-trt.
 
       *    TODO : Random des degat + degat de base.
